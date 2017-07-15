@@ -1,7 +1,5 @@
 syntax = "proto3";
-package org.bzz.berserker;
-
-
+package extractor;
 
 // Batching to amortize DB load
 message RepositoriesBatch {
@@ -22,7 +20,7 @@ message FileUast {
 
 
 // server-side streaming RPC
-service Uast {
+service UastExtractor {
   // Parses each file in the given set of repositories. Results are streamed 
   // rather than returned at once (e.g. in a response message with a repeated field),
   // as each repository in a batch may contain a huge number of files.
