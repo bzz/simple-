@@ -1,0 +1,31 @@
+syntax = "proto3";
+package org.bzz.berserker;
+
+
+
+// Batching to amortize DB load
+message RepositoriesBatch {
+	repeated string repository_id = 1;
+}
+
+message FileUast {
+	string repoId = 1;
+	string repoUrl = 2;
+	string path = 3;
+	string lang = 4;
+  //import "github.com/bblfsh/sdk/uast/generated.proto";
+  //github.com.bblfsh.sdk.uast.Node file_uast;
+  bytes uast = 5;
+	string reference = 6;
+  bytes hash = 7;
+}
+
+
+// server-side streaming RPC
+service Uast {
+  // Parses each file in the given set of repositories. Results are streamed 
+  // rather than returned at once (e.g. in a response message with a repeated field),
+  // as each repository in a batch may contain a huge number of files.
+  rpc ParseEveryFileToUast(RepositoriesBatch) returns (stream FileUast) {}
+}
+
