@@ -1,5 +1,15 @@
+This is equivalent of https://github.com/src-d/berserker
 
-Scala
+# Architecture
+It consists of 2 parts/processes, talking though gRPC.
+
+Focus of this implementation is
+ - polyglot, a single project containing .proto, go and scala source code
+ - uses `.proto` as 'source of truth'
+ - uses gRPC server-side streaming per-file, to reduce memory pressure
+
+### Apache Spark job in Scala
+```
  fetches all RepositoryIDs from DB, that need to be processed
  partition IDs (#of partitions = number of parallel processes (go-git, enry, bblfsh))
  for each partition
@@ -7,37 +17,40 @@ Scala
    RepositoriesBatch := full partition
    client.ParseEveryFileToUAST(RepositoriesBatch)
    // all UASTs for repos in a batch will be in Task memory :/
+```
 
-Go
+### Extractor in Golang
+```
  expose gRPC interface
- for given repositoryID
-   get details from DB (refs)
-   read master from .siva file (core.RootTransactioner, go-git, go-billy-siva, etc)
-   for every file
-     detect lang
-     filter python & java
-     send to bblfsh server to get UAST
-     serialize it to Protobuff
-     return
+ for given repositoryIDs
+   get metadata from DB (refs)
+   for each repositoryID:
+     read master from .siva file (core.RootTransactioner, go-git, go-billy-siva, etc)
+     for every file
+       detect lang
+       filter python & java
+       send to bblfsh server to get UAST
+       serialize it to Protobuff
+```
 
-## Run localy
+## Run locally
 
-0. codegen.sh - generate Scala/Go code from .proto
-  protoc --go_out=plugins=grpc:. route_guide.proto
-  sbt something? depends on ScalaPB
+0. generate Scala/Go code from .proto
+  - install `protoc`
+  - `go get -u github.com/gogo/protobuf/...`
+  - `./codegen.sh`
 
 1. build scala
-  sbt build
+  `./sbt build`
 
 2. build Go
-   `export GOPATH=$(pwd):$GOPATH`
-
   - server
-    go build ./src/main/go/...
-
+    `go build -o extractor-server ./src/main/go`
   - cli
-    go build ...
+    `go build ?`
 
 3. run
+  ```
   ./extractor-server
   ./sbt run
+  ```
