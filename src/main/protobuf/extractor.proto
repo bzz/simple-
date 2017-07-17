@@ -1,5 +1,6 @@
 syntax = "proto3";
-package extractor;
+package org.bzz.extractor.protobuf;
+option go_package = "extractor";
 
 // Batching to amortize DB load
 message RepositoriesBatch {

@@ -1,28 +1,24 @@
-name := "berserker"
-organization := "tech.sourced"
+name := "extractor"
+organization := "org.bzz"
 version := "0.0.1"
 
 scalaVersion := "2.11.8"
 val sparkVersion = "2.1.0"
 
-mainClass in Compile := Some("com.srcd.berserker.BerserkerDriver")
+mainClass in Compile := Some("org.bzz.extractor.Driver")
 
-resolvers ++= Seq(
-  "apache-snapshots" at "http://repository.apache.org/snapshots",
-  "sonatype-snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+PB.targets in Compile := Seq(
+  scalapb.gen(flatPackage=true) -> file("src/main/scala")
 )
 
 // Force to use this netty dependency due conflicts
-dependencyOverrides += "io.netty" % "netty-all" % "4.1.12.Final"
-
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.11")
-libraryDependencies += "com.trueaccord.scalapb" %% "compilerplugin" % "0.6.0"
+//dependencyOverrides += "io.netty" % "netty-all" % "4.1.12.Final"
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
   "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test", 
+  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
 
-  "io.grpc" % "grpc-netty" % com.trueaccord.scalapb.compiler.Version.grpcJavaVersion,
   "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.compiler.Version.scalapbVersion,
+  "io.grpc" % "grpc-netty" % com.trueaccord.scalapb.compiler.Version.grpcJavaVersion
 )
