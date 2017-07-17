@@ -14,4 +14,4 @@ fi
 
 protoc -I='./src/main' --go_out=plugins=grpc:'./src/main/go' $proto
 # spbc my.proto --scala_out=.
-sbt protoc-generate
+./sbt protoc-generate

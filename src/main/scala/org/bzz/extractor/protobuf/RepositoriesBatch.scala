@@ -11,13 +11,13 @@ package org.bzz.extractor.protobuf
   */
 @SerialVersionUID(0L)
 final case class RepositoriesBatch(
-    repositoryId: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty
+    repositoryIds: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[RepositoriesBatch] with com.trueaccord.lenses.Updatable[RepositoriesBatch] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      repositoryId.foreach(repositoryId => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, repositoryId))
+      repositoryIds.foreach(repositoryIds => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, repositoryIds))
       __size
     }
     final override def serializedSize: Int = {
@@ -29,39 +29,39 @@ final case class RepositoriesBatch(
       read
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
-      repositoryId.foreach { __v =>
+      repositoryIds.foreach { __v =>
         _output__.writeString(1, __v)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): org.bzz.extractor.protobuf.RepositoriesBatch = {
-      val __repositoryId = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.repositoryId)
+      val __repositoryIds = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.repositoryIds)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __repositoryId += _input__.readString()
+            __repositoryIds += _input__.readString()
           case tag => _input__.skipField(tag)
         }
       }
       org.bzz.extractor.protobuf.RepositoriesBatch(
-          repositoryId = __repositoryId.result()
+          repositoryIds = __repositoryIds.result()
       )
     }
-    def clearRepositoryId = copy(repositoryId = _root_.scala.collection.Seq.empty)
-    def addRepositoryId(__vs: String*): RepositoriesBatch = addAllRepositoryId(__vs)
-    def addAllRepositoryId(__vs: TraversableOnce[String]): RepositoriesBatch = copy(repositoryId = repositoryId ++ __vs)
-    def withRepositoryId(__v: _root_.scala.collection.Seq[String]): RepositoriesBatch = copy(repositoryId = __v)
+    def clearRepositoryIds = copy(repositoryIds = _root_.scala.collection.Seq.empty)
+    def addRepositoryIds(__vs: String*): RepositoriesBatch = addAllRepositoryIds(__vs)
+    def addAllRepositoryIds(__vs: TraversableOnce[String]): RepositoriesBatch = copy(repositoryIds = repositoryIds ++ __vs)
+    def withRepositoryIds(__v: _root_.scala.collection.Seq[String]): RepositoriesBatch = copy(repositoryIds = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
-        case 1 => repositoryId
+        case 1 => repositoryIds
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(repositoryId.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
+        case 1 => _root_.scalapb.descriptors.PRepeated(repositoryIds.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -92,7 +92,7 @@ object RepositoriesBatch extends com.trueaccord.scalapb.GeneratedMessageCompanio
   lazy val defaultInstance = org.bzz.extractor.protobuf.RepositoriesBatch(
   )
   implicit class RepositoriesBatchLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, org.bzz.extractor.protobuf.RepositoriesBatch]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, org.bzz.extractor.protobuf.RepositoriesBatch](_l) {
-    def repositoryId: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.repositoryId)((c_, f_) => c_.copy(repositoryId = f_))
+    def repositoryIds: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.repositoryIds)((c_, f_) => c_.copy(repositoryIds = f_))
   }
-  final val REPOSITORY_ID_FIELD_NUMBER = 1
+  final val REPOSITORY_IDS_FIELD_NUMBER = 1
 }
